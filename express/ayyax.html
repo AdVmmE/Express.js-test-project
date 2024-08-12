@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XHR Test</title>
+</head>
+<body>
+  <button id="getDataButton">Get Data</button>
+  <div id="output"></div>
+
+  <script>
+    document.getElementById("getDataButton").addEventListener("click", function() {
+      var xhr = new XMLHttpRequest();
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var responseData = JSON.parse(xhr.responseText);
+          var outputHtml = "<ul>";
+          responseData.forEach(function(item) {
+            outputHtml += "<li>ID: " + item.id + ", Name: " + item.name + "</li>";
+          });
+          outputHtml += "</ul>";
+          document.getElementById("output").innerHTML = outputHtml;
+        } else {
+          document.getElementById("output").innerText = "Ready state: " + xhr.readyState;
+        }
+      };
+
+      xhr.open("GET", "data.php", true);
+      xhr.send();
+    });
+  </script>
+</body>
+</html>

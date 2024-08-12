@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <title>Todo List</title>
+</head>
+<body>
+    <fieldset>
+
+    <legend>Todo List</legend>
+    <div class="container fluid">
+        <div class="con" style="display: flex;">
+    <form action="/todos" method="POST">
+        <input type="text" class="form-control" name="todo" placeholder="Enter task" >
+        <button  type="submit">Add</button>
+    </form>
+    <ul id="todo-list">
+        <!-- Todo items will be added dynamically here -->
+    </ul>
+   </div>
+</div>
+</fieldset>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        axios.get('/todos')
+            .then(response => {
+                const todoList = response.data;
+                const listElement = document.getElementById('todo-list');
+                listElement.innerHTML = '';
+                todoList.forEach(todo => {
+                    const li = document.createElement('li');
+                    li.textContent = todo;
+                    listElement.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching todo list:', error);
+            });
+    </script>
+</body>
+</html>
